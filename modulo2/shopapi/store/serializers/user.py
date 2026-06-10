@@ -1,6 +1,9 @@
 # store/serializers/user.py
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.auth.tokens import default_token_generator
 
 
 class RegisterSerializer(serializers.Serializer):
@@ -117,3 +120,36 @@ class ChangePasswordSerializer(serializers.Serializer):
         if data['new_password'] != data['new_password2']:
             raise serializers.ValidationError({'new_password2': 'Passwords do not match.'})
         return data
+    
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    uid           = serializers.CharField()
+    token         = serializers.CharField()
+    new_password  = serializers.CharField(min_length=8, write_only=True)
+    new_password2 = serializers.CharField(write_only=True)
+
+    def validate(self, data):
+        try:
+            pk   = force_str(urlsafe_base64_decode(data['uid']))
+            user = User.objects.get(pk=pk)
+        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+            raise serializers.ValidationError({'uid': 'Enlace inválido o expirado.'})
+
+        if not default_token_generator.check_token(user, data['token']):
+            raise serializers.ValidationError({'token': 'Token inválido o expirado.'})
+
+        if data['new_password'] != data['new_password2']:
+            raise serializers.ValidationError({'new_password2': 'Las contraseñas no coinciden.'})
+
+        data['user'] = user
+        return data
+
+    def save(self):
+        user = self.validated_data['user']
+        user.set_password(self.validated_data['new_password'])
+        user.save()
+        return user

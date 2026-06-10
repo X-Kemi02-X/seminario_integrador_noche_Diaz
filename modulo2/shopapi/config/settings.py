@@ -100,3 +100,40 @@ CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=False, cast=bo
 
 MEDIA_URL  = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+# --- Email -----------------------------------------------------------
+EMAIL_BACKEND       = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST          = config('EMAIL_HOST',    default='smtp.gmail.com')
+EMAIL_PORT          = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS       = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER     = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL  = config('DEFAULT_FROM_EMAIL', default='ShopAPI <noreply@shopapi.local>')
+
+# URL del frontend para armar enlaces en correos (recuperación de contraseña)
+FRONTEND_URL = config('FRONTEND_URL', default='http://localhost:3000')
+
+# Tiempo de validez del token de reset (en segundos). Por defecto Django usa 3 días.
+PASSWORD_RESET_TIMEOUT = 86400  # 24 horas
+
+
+# --- Logging ---------------------------------------------------------
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'store': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+    },
+}
