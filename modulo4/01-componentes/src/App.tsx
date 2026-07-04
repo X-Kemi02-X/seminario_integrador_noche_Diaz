@@ -2,6 +2,13 @@
 
 import WelcomeBanner       from './components/WelcomeBanner'
 import UserGreeting        from './components/UserGreeting'
+import DigitalCounter from './useState/DigitalCounter'
+import UserProfileForm from './useState/UserProfileForm'
+import TaskManager from './useState/TaskManager'
+import DocumentTitle from './useEffect/DocumentTitle'
+import FetchUser from './useEffect/FetchUser'
+import AutoFocusForm from './useRef/AutoFocusForm'
+import InlineEditor from './useRef/InlineEditor'
 
 
 // ┌──────────────────────────────────────────────────────────────────────────┐
@@ -20,7 +27,7 @@ import UserGreeting        from './components/UserGreeting'
 // │  12  ProductCatalogList  — lista con renderizado condicional de items   │
 // │  13  UserProfileCard     — ejercicio: props complejas + rol             │
 // └──────────────────────────────────────────────────────────────────────────┘
-const PASO = 2
+const PASO: number = 33
 
 const fruits = [
   { name: 'Manzana', emoji: '🍎', calories: 52 },
@@ -94,7 +101,17 @@ export default function App() {
         bio="Desarrolladora fullstack con 5 años de experiencia."
       />
     ) : */
+
+     PASO === 20 ? <DigitalCounter initialValue={2} label="Cantidad de servidores:" step={1} /> :
+     PASO === 21 ? <UserProfileForm /> :
+     PASO === 22 ? <TaskManager /> :
+     PASO === 30 ? <DocumentTitle /> :
+     PASO === 31 ? <FetchUser /> :
+     PASO === 32 ? <AutoFocusForm /> :
+     PASO === 33 ? <InlineEditor /> :
+
     <p style={{ color: '#e00' }}>Paso {PASO}: crea el componente primero</p>
+    
 
   return (
     <main style={{ maxWidth: 540, margin: '40px auto', fontFamily: 'sans-serif', padding: '0 16px' }}>
