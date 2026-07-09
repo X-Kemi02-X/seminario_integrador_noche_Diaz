@@ -9,6 +9,18 @@ import DocumentTitle from './useEffect/DocumentTitle'
 import FetchUser from './useEffect/FetchUser'
 import AutoFocusForm from './useRef/AutoFocusForm'
 import InlineEditor from './useRef/InlineEditor'
+import BasicCounter from './useReducer/BasicCounter'
+import RegistrationForm from './useReducer/RegistrationForm'
+import ThemeToggle from './UseContext/ThemeToggle'
+import LoginForm from './UseContext/LoginForm'
+import AppHeader from './UseContext/AppHeader'
+import UserBadge from './UseContext/UserBadge'
+import { useAuth } from './context/AuthContext'
+import FilteredCatalog from './useMemo/FilteredCatalog'
+import PrimeSieve from './useMemo/PrimeSieve'
+import OrderMetrics from './useMemo/OrderMetrics'
+import MultiTagFilter from './useMemo/MultiTagFilter'
+import ThemeSelector from './hooks/ThemeSelector'
 
 
 // ┌──────────────────────────────────────────────────────────────────────────┐
@@ -27,7 +39,7 @@ import InlineEditor from './useRef/InlineEditor'
 // │  12  ProductCatalogList  — lista con renderizado condicional de items   │
 // │  13  UserProfileCard     — ejercicio: props complejas + rol             │
 // └──────────────────────────────────────────────────────────────────────────┘
-const PASO: number = 33
+const PASO: number = 71
 
 const fruits = [
   { name: 'Manzana', emoji: '🍎', calories: 52 },
@@ -43,6 +55,7 @@ const catalog = [
 ]
 
 export default function App() { 
+  const { state } = useAuth()
   const content =
     PASO ===  1 ? <WelcomeBanner /> : 
     PASO ===  2 ? <UserGreeting name="Ana García" occupation="Desarrolladora Frontend" /> : /*
@@ -110,12 +123,34 @@ export default function App() {
      PASO === 32 ? <AutoFocusForm /> :
      PASO === 33 ? <InlineEditor /> :
 
+     PASO === 50 ? <BasicCounter /> :
+     PASO === 51 ? <RegistrationForm /> :
+
+     PASO === 60 ? <ThemeToggle /> :
+     PASO === 61 ? <UserBadge /> :
+     PASO === 62 ? <LoginForm /> :
+     PASO === 63 ? <AppHeader /> :
+     PASO === 64 ? <PrimeSieve /> :
+     PASO === 65 ? <FilteredCatalog /> :
+     PASO === 66 ? <OrderMetrics /> :
+     PASO === 67 ? <MultiTagFilter /> :
+     PASO === 71 ? <ThemeSelector /> :
+
     <p style={{ color: '#e00' }}>Paso {PASO}: crea el componente primero</p>
     
 
   return (
-    <main style={{ maxWidth: 540, margin: '40px auto', fontFamily: 'sans-serif', padding: '0 16px' }}>
-      {content}
+    <main style={{ maxWidth: 600, margin: '40px auto', fontFamily: 'sans-serif', padding: '0 16px' }}>
+      {PASO === 63 ? content : (
+        <>
+          {state.user && (
+            <p style={{ marginBottom: 16, fontSize: 14, color: '#6b7280' }}>
+              Sesión activa: <strong>{state.user.name}</strong>
+            </p>
+          )}
+          {content}
+        </>
+      )}
     </main>
   )
 }
