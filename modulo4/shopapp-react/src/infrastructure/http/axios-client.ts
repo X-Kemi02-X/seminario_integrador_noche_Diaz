@@ -44,6 +44,12 @@ apiClient.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
+    // Si el cuerpo es FormData (subida de archivos), dejamos que el navegador
+    // fije Content-Type con el boundary correcto. Si no, hereda el default
+    // 'application/json' del cliente y el servidor no parsea el multipart.
+    if (config.data instanceof FormData) {
+      config.headers.delete('Content-Type')
+    }
     return config
   },
   (error) => Promise.reject(parseApiError(error)),
