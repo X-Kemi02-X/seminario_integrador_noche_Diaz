@@ -1,0 +1,10 @@
+print("Comparacion de Precios de Celulares")
+
+precio1=float(input("Precio del primer celular: "))
+precio2=float(input("Precio del segundo celular: "))
+print(precio1, "==", precio2, precio1==precio2)
+print(precio1, "!=", precio2, precio1!=precio2)
+print(precio1, ">", precio2, precio1>precio2)
+print(precio1, "<", precio2, precio1<precio2)
+print(precio1, ">=", precio2, precio1>=precio2)
+print(precio1, "<=", precio2, precio1<=precio2)
