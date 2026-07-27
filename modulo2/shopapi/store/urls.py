@@ -3,7 +3,8 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
 
-from store.views.health    import health_check
+from store.views.health            import health_check
+from store.views.email_notification import SendNotificationView
 from store.views.auth      import RegisterView, LogoutView, PasswordResetRequestView, PasswordResetConfirmView
 from store.views.user      import UserViewSet
 from store.views.category  import CategoryViewSet
@@ -26,5 +27,6 @@ urlpatterns = [
     path('auth/logout/',                 LogoutView.as_view()),
     path('auth/password-reset/',         PasswordResetRequestView.as_view(), name='auth-password-reset'),
     path('auth/password-reset/confirm/', PasswordResetConfirmView.as_view(), name='auth-password-reset-confirm'),
+    path('emails/send/',                 SendNotificationView.as_view()),
     path('', include(router.urls)),
 ]
